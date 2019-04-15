@@ -184,7 +184,7 @@ class BlockController {
         }
         let blockAux = new Block.Block(request.payload);
         await this.blockChain.addBlock(blockAux)
-        return JSON.stringify(blockAux)
+        return blockAux
       }
     });
   }
@@ -196,7 +196,7 @@ class BlockController {
     this.server.route({
       method: 'POST',
       path: '/requestValidation/',
-      handler: (request, h) => {
+      handler: async (request, h) => {
         try {
           this._isEmptyData(request.payload, 'address')
         } catch (err) {
@@ -216,7 +216,7 @@ class BlockController {
     this.server.route({
       method: 'POST',
       path: '/message-signature/validate/',
-      handler: (request, h) => {
+      handler: async (request, h) => {
         try {
           this._isEmptyData(request.payload, ['address', 'signature'])
         } catch (err) {
@@ -233,29 +233,6 @@ class BlockController {
         }
         return this.mempoolValid[address].countTimeWindow().verifySignature(signature)
       }
-    })
-  }
-
-  /**
-  * Help method to initialized Mock dataset, adds 10 test blocks to the blocks array
-  */
-  initializeMockData() {
-    this.blockChain.getBlockHeight().then((index) => {
-      let self = this
-      if (index > 0) {
-        return
-      }
-      function theLoop(i) {
-        setTimeout(function () {
-          let blockTest = new Block.Block('Test Block - ' + (i + 1));
-          self.blockChain.addBlock(blockTest).then((result) => {
-            console.log(result);
-            i++;
-            if (i < 10) theLoop(i);
-          });
-        }, 300);
-      };
-      theLoop(0)
     })
   }
 }
