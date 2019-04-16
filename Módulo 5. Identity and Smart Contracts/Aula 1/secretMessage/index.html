@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% comment %} https://github.com/MetaMask/faq/blob/master/DEVELOPERS.md#globe_with_meridians-https---web-server-required {% endcomment %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Deploy a Remix Contract</title>
+
+    <link rel="stylesheet" type="text/css" href="main.css">
+
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+</head>
+
+<body>
+    <div>
+        <h1>Ethereum Secret Messenger</h1>
+        <hr>
+
+        <label for="message">This site writes a secret message to the Ethereum
+            blockchain!</label>
+        <input id="userInput" type="text">
+
+        <button id="setMessageButton">Set secret message</button>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+
+    <script>
+
+        // Connect a the web3 provider
+        console.log(typeof web3)
+        if (typeof web3 !== 'undefined') {
+            web3 = new Web3(web3.currentProvider);
+        } else {
+            let rinkeby_url = "https://rinkeby.infura.io/v3/CODE"
+            let local_url = 'http://localhost:8545'
+            web3 = new Web3(new Web3.providers.HttpProvider(rinkeby_url));
+        }
+
+        // Set a default account
+        web3.eth.defaultAccount = web3.eth.accounts[0];
+        console.log(web3.eth.defaultAccount)
+        // Get the contract address
+        var RemixContract = web3.eth.contract([
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "x",
+				"type": "string"
+			}
+		],
+		"name": "setMessage",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getMessage",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	}
+]);
+
+        // Get the contract abi
+        //addres at Rinkeby: 0x1b4065a6d997ad6086611A18b16093B6D0dF1bfC
+        var myMessage = RemixContract.at('0x1b4065a6d997ad6086611A18b16093B6D0dF1bfC');
+
+        console.log(myMessage);
+
+        $("#setMessageButton").click(function () {
+            myMessage.setMessage($("#userInput").val());
+            console.log($("#userInput").val())
+        });
+
+    </script>
+</body>
+
+</html>

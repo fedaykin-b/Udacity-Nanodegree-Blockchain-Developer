@@ -1,0 +1,14 @@
+{
+  "name": "secretmessage",
+  "version": "1.0.0",
+  "description": "Exploring a Dapp creation with Smart Contracts and Front-End",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "web3": "^1.0.0-beta.52"
+  }
+}

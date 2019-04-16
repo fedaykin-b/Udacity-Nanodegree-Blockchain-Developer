@@ -1,0 +1,14 @@
+{
+  "name": "testweb3js",
+  "version": "1.0.0",
+  "description": "Project only to test Web3js",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "web3": "^1.0.0-beta.52"
+  }
+}
